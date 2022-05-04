@@ -45,6 +45,15 @@ async function fetchJSON(url) {
     return await res.json();
 }
 
+function NyhetCard({ nyhet: {title, article, poster} }) {
+        return <>
+            <h3>{title}</h3>;
+            {poster && <img src={poster} width={300} alt={"Nyhet poster"}/>}
+            <div>{article}</div>
+            </>
+    }
+
+
 function ListNyheter() {
     const { loading, error, data } = useLoading(async () => fetchJSON("/api/nyheter")
 );
@@ -61,11 +70,9 @@ if(error) {
     return <div>
         <h1>Nyheter i databasen</h1>
 
-        <ul>
             {data.map((nyhet) => (
-                <li key={nyhet.title}>{nyhet.title}</li>
+                <NyhetCard key={nyhet.title} nyhet={nyhet}/>
             ))}
-        </ul>
     </div>;
 }
 

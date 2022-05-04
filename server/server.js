@@ -14,13 +14,8 @@ mongoClient.connect().then(async() => {
     console.log("Connected to mongodb")
     const databases = await mongoClient.db().admin().listDatabases();
     console.log(databases);
-    app.use("/api/nyheter", NyheterApi(mongoClient.db("pg6301-eksamen")));
+    app.use("/api/nyheter", NyheterApi(mongoClient.db(process.env.MONGODB_DATABASE || "pg6301-eksamen")));
 });
-
-
-
-
-
 
 
 
