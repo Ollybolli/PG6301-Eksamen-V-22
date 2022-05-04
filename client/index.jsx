@@ -4,10 +4,10 @@ import {BrowserRouter, Link, Route, Routes} from "react-router-dom";
 
 function FrontPage() {
     return <div>
-        <h1>News Database</h1>
+        <h1>Nyheter Database</h1>
         <ul>
-            <li><Link to={"/News"}>ListNews</Link></li>
-            <li><Link to={"/News/New"}>Add News</Link></li>
+            <li><Link to={"/Nyheter"}>Liste over nyheter</Link></li>
+            <li><Link to={"/Nyheter/Ny"}>Legg til nyhet</Link></li>
         </ul>
     </div>;
 }
@@ -45,8 +45,8 @@ async function fetchJSON(url) {
     return await res.json();
 }
 
-function ListNews() {
-    const { loading, error, data } = useLoading(async () => fetchJSON("/api/news")
+function ListNyheter() {
+    const { loading, error, data } = useLoading(async () => fetchJSON("/api/nyheter")
 );
 
 if (loading) {
@@ -59,30 +59,30 @@ if(error) {
     </div>
 }
     return <div>
-        <h1>News in the database</h1>
+        <h1>Nyheter i databasen</h1>
 
         <ul>
-            {data.map(news =>
-                <li key={news.title}>{news.title}</li>
-            )}
+            {data.map((nyhet) => (
+                <li key={nyhet.title}>{nyhet.title}</li>
+            ))}
         </ul>
     </div>;
 }
 
 
 
-function AddNewNews() {
+function LeggTilNyNyhet(props) {
     return <form>
-        <h1>Add News</h1>
+        <h1>Legg til Nyhet</h1>
     </form>;
 }
 
-function Application(props) {
+function Application() {
     return <BrowserRouter>
         <Routes>
             <Route path={"/"} element={<FrontPage />} />
-            <Route path={"/news"} element={<ListNews />} />
-            <Route path={"/news/new"} element={<AddNewNews />} />
+            <Route path={"/nyheter"} element={<ListNyheter />} />
+            <Route path={"/nyheter/ny"} element={<LeggTilNyNyhet />} />
         </Routes>
     </BrowserRouter>;
 }
