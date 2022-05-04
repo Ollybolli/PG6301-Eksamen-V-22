@@ -1,19 +1,13 @@
 import {Router} from "express";
 
-const nyheter = [
-    {
-        title: "Nyhet 1",
-    },
-    {
-        title: "Nyhet 2",
-    },
-];
-
-export function NyheterApi() {
+export function NyheterApi(mongoDatabase) {
     const router = new Router();
 
 
-    router.get("/", (req, res) => {
+    router.get("/", async (req, res) => {
+      const nyheter = await mongoDatabase.collection("nyheter")
+            .find()
+            .toArray();
         res.json(nyheter);
     });
     router.post("/ny", (req, res) => {

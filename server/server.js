@@ -1,10 +1,28 @@
 import express from "express";
 import * as path from "path";
 import {NyheterApi} from "./nyheterApi.js";
+import { MongoClient } from "mongodb";
+import dotenv from "dotenv";
+
+dotenv.config();
+
 
 const app = express();
 
-app.use("/api/nyheter", NyheterApi());
+const mongoClient = new MongoClient(process.env.MONGODB_URL);
+mongoClient.connect().then(async() => {
+    console.log("Connected to mongodb")
+    const databases = await mongoClient.db().admin().listDatabases();
+    console.log(databases);
+    app.use("/api/nyheter", NyheterApi(mongoClient.db("pg6301-eksamen")));
+});
+
+
+
+
+
+
+
 
 app.use(express.static("../client/dist/"));
 
