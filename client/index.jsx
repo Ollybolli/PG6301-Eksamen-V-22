@@ -114,7 +114,7 @@ function Login() {
 
     return (
         <div>
-            <h1>Please wait....</h1>
+            <h1>Vennligst vent....</h1>
         </div>
     );
 }
