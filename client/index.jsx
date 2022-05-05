@@ -88,11 +88,15 @@ if(error) {
 }
     return <div>
         <h1>Nyheter i databasen</h1>
+        <div>
+            <Link to={"/login"}>Tilbake</Link>
+        </div>
 
             {data.map((nyhet) => (
                 <NyhetCard key={nyhet.title} nyhet={nyhet}/>
             ))}
     </div>;
+
 }
 
 
@@ -100,7 +104,11 @@ if(error) {
 function LeggTilNyNyhet(props) {
     return <form>
         <h1>Legg til Nyhet</h1>
+        <div>
+            <Link to={"/login"}>Tilbake</Link>
+        </div>
     </form>;
+
 }
 
 
@@ -196,7 +204,11 @@ function Profile() {
             <div>
                 <img src={data.picture} alt={"Profile picture"} />
             </div>
+            <div>
+                <Link to={"/login"}>Tilbake</Link>
+            </div>
         </div>
+
     );
 }
 
