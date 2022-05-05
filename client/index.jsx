@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import ReactDOM from "react-dom";
-import {BrowserRouter, Link, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Link, Route, Routes, useNavigate} from "react-router-dom";
 
 function FrontPage() {
     return <div>
@@ -53,11 +53,16 @@ async function fetchJSON(url) {
     return await res.json();
 }
 
-function NyhetCard({ nyhet: {title, article, poster} }) {
+function NyhetCard({ nyhet: {title, article, poster, date, author} }) {
         return <>
             <h3>{title}</h3>;
             {poster && <img src={poster} width={300} alt={"Nyhet poster"}/>}
+            <br/><br/>
             <div>{article}</div>
+            <br/>
+            <div>Date: {date}</div>
+            <div>Author: {author}</div>
+            <div>............................................................................................................................................................</div>
             </>
     }
 
@@ -120,7 +125,7 @@ function Login() {
 }
 
 function LoginCallback() {
-
+    const navigate = useNavigate();
     useEffect(async () => {
         const { access_token } = Object.fromEntries(
             new URLSearchParams(window.location.hash.substring(1))
@@ -134,7 +139,7 @@ function LoginCallback() {
             },
             body: JSON.stringify({ access_token }),
         });
-        navigate("/");
+        navigate("../");
     });
 
     return <h1>Vennligst vent...</h1>;
