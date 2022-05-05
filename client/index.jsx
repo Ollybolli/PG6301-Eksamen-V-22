@@ -9,7 +9,6 @@ import {
 } from "react-router-dom";
 
 function FrontPage() {
-
     return <div>
         <h1>Nyheter Database</h1>
         <div>
@@ -179,7 +178,7 @@ function Profile() {
     });
 
     if (loading) {
-        return <div>Please wait...</div>;
+        return <div>Vennligst vent...</div>;
     }
     if (error) {
         return <div>Error! {error.toString()}</div>;
