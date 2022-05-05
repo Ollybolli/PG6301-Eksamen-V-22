@@ -9,21 +9,8 @@ import {
 } from "react-router-dom";
 
 function FrontPage() {
-    const { loading, data, error } = useLoader(async () => {
-        return await fetchJSON("/api/login");
-    });
-
-    if (loading) {
-        return <div>Please wait...</div>;
-    }
-    if (error) {
-        return <div>Error! {error.toString()}</div>;
-    }
 
     return <div>
-        <div>
-            <img src={data.picture} alt={"Profile picture"} />
-        </div>
         <h1>Nyheter Database</h1>
         <div>
             <li><Link to={"/login"}>Login</Link></li>
