@@ -5,10 +5,18 @@ import {BrowserRouter, Link, Route, Routes} from "react-router-dom";
 function FrontPage() {
     return <div>
         <h1>Nyheter Database</h1>
-        <ul>
-            <li><Link to={"/Nyheter"}>Liste over nyheter</Link></li>
-            <li><Link to={"/Nyheter/Ny"}>Legg til nyhet</Link></li>
-        </ul>
+        <div>
+            <li><Link to={"/login"}>Login</Link></li>
+        </div>
+        <div>
+            <li><Link to={"/profil"}>Profil</Link></li>
+        </div>
+        <div>
+            <li><Link to={"/nyheter"}>Liste over nyheter</Link></li>
+        </div>
+        <div>
+            <li><Link to={"/nyheter/ny"}>Legg til nyhet</Link></li>
+        </div>
     </div>;
 }
 
@@ -84,10 +92,25 @@ function LeggTilNyNyhet(props) {
     </form>;
 }
 
+function Login() {
+    return null;
+}
+
+function LoginCallback() {
+    return null;
+}
+
+function Profil() {
+    return null;
+}
+
 function Application() {
     return <BrowserRouter>
         <Routes>
             <Route path={"/"} element={<FrontPage />} />
+            <Route path={"/login"} element={<Login />} />
+            <Route path={"/login/callback"} element={<LoginCallback />} />
+            <Route path={"/profil"} element={<Profil />} />
             <Route path={"/nyheter"} element={<ListNyheter />} />
             <Route path={"/nyheter/ny"} element={<LeggTilNyNyhet />} />
         </Routes>

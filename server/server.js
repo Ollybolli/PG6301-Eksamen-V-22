@@ -6,7 +6,6 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-
 const app = express();
 
 const mongoClient = new MongoClient(process.env.MONGODB_URL);
