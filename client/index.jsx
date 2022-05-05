@@ -9,7 +9,7 @@ function FrontPage() {
             <li><Link to={"/login"}>Login</Link></li>
         </div>
         <div>
-            <li><Link to={"/profil"}>Profil</Link></li>
+            <li><Link to={"/profile"}>Profil</Link></li>
         </div>
         <div>
             <li><Link to={"/nyheter"}>Liste over nyheter</Link></li>
@@ -92,15 +92,38 @@ function LeggTilNyNyhet(props) {
     </form>;
 }
 
+
+
 function Login() {
-    return null;
+    useEffect(async () => {
+        const { authorization_endpoint } = await fetchJSON(
+            "https://accounts.google.com/.well-known/openid-configuration"
+        );
+
+        const parameters = {
+            response_type: "token",
+            client_id:
+                "253331612690-jkc78lg2qsjdi372beot9ppamfam9fj5.apps.googleusercontent.com",
+            scope: "email profile",
+            redirect_uri: window.location.origin + "/login/callback",
+        };
+
+        window.location.href =
+            authorization_endpoint + "?" + new URLSearchParams(parameters);
+    }, []);
+
+    return (
+        <div>
+            <h1>Please wait....</h1>
+        </div>
+    );
 }
 
 function LoginCallback() {
     return null;
 }
 
-function Profil() {
+function Profile() {
     return null;
 }
 
@@ -110,7 +133,7 @@ function Application() {
             <Route path={"/"} element={<FrontPage />} />
             <Route path={"/login"} element={<Login />} />
             <Route path={"/login/callback"} element={<LoginCallback />} />
-            <Route path={"/profil"} element={<Profil />} />
+            <Route path={"/profil"} element={<Profile />} />
             <Route path={"/nyheter"} element={<ListNyheter />} />
             <Route path={"/nyheter/ny"} element={<LeggTilNyNyhet />} />
         </Routes>
