@@ -3,10 +3,21 @@ import * as path from "path";
 import {NyheterApi} from "./nyheterApi.js";
 import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
+import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
 const app = express();
+
+app.use(bodyParser.json());
+app.use(cookieParser(process.env.COOKIE_SECRET));
+
+app.post("/api/login",(req, res) => {
+   const { access_token } = req.body;
+   res.cookie("access_token", access_token, { signed: true });
+   res.sendStatus(200);
+})
 
 const mongoClient = new MongoClient(process.env.MONGODB_URL);
 mongoClient.connect().then(async() => {
