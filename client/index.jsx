@@ -146,6 +146,7 @@ function LoginCallback() {
             body: JSON.stringify({ access_token }),
         });
         navigate("/");
+        window.location.reload(false);
     });
 
     return <h1>Vennligst vent...</h1>;
