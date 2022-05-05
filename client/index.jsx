@@ -102,11 +102,41 @@ if(error) {
 
 
 function LeggTilNyNyhet(props) {
-    return <form>
-        <h1>Legg til Nyhet</h1>
+    const [title, setTitle] = useState("");
+    const [article, setArticle] = useState("");
+
+    const [newNyhet, setNewNyhet] = useState({});
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        setNewNyhet({title, article});
+    }, [title, article]);
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        nyhet.push(newNyhet);
+        navigate("..");
+    }
+
+    return <form onSubmit={handleSubmit}>
+        <h1>Lag en nyhetsartikkel</h1>
+        <div>
+            Title:
+            <input value={title} onChange={event => setTitle(event.target.value)} />
+        </div>
+        <div>
+            <div>Article:</div>
+            <textarea value={article} onChange={event => setArticle(event.target.value)} />
+        </div>
+        <button>Save</button>
+        <pre>
+            {JSON.stringify(newNyhet)}
+        </pre>
         <div>
             <Link to={"/login"}>Tilbake</Link>
         </div>
+        <br/>
     </form>;
 
 }
