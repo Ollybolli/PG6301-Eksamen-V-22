@@ -1,9 +1,28 @@
 import React, {useEffect, useState} from "react";
 import ReactDOM from "react-dom";
-import {BrowserRouter, Link, Route, Routes, useNavigate} from "react-router-dom";
+import {
+    BrowserRouter,
+    Link,
+    Route,
+    Routes,
+    useNavigate
+} from "react-router-dom";
 
 function FrontPage() {
+    const { loading, data, error } = useLoader(async () => {
+        return await fetchJSON("/api/login");
+    });
+
+    if (loading) {
+        return <div>Please wait...</div>;
+    }
+    if (error) {
+        return <div>Error! {error.toString()}</div>;
+    }
     return <div>
+        <div>
+            <img src={data.picture} alt={"Profile picture"} />
+        </div>
         <h1>Nyheter Database</h1>
         <div>
             <li><Link to={"/login"}>Login</Link></li>
@@ -139,14 +158,59 @@ function LoginCallback() {
             },
             body: JSON.stringify({ access_token }),
         });
-        navigate("../");
+        navigate("/");
+        window.location.reload(false);
     });
 
     return <h1>Vennligst vent...</h1>;
 }
 
+function useLoader(loadingFn) {
+    const [loading, setLoading] = useState(true);
+    const [data, setData] = useState();
+    const [error, setError] = useState();
+
+    async function load() {
+        try {
+            setLoading(true);
+            setData(await loadingFn());
+        } catch (error) {
+            setError(error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => load(), []);
+    return { loading, data, error };
+}
+
 function Profile() {
-    return null;
+    const { loading, data, error } = useLoader(async () => {
+        return await fetchJSON("/api/login");
+    });
+
+    if (loading) {
+        return <div>Please wait...</div>;
+    }
+    if (error) {
+        return <div>Error! {error.toString()}</div>;
+    }
+
+    return (
+        <div>
+            <h1>
+                Profile name: {data.name}
+            </h1>
+            <div>
+                Email: {data.email}
+            </div>
+            <br/>
+            <div>
+                <img src={data.picture} alt={"Profile picture"} />
+            </div>
+        </div>
+    );
 }
 
 function Application() {
@@ -155,7 +219,7 @@ function Application() {
             <Route path={"/"} element={<FrontPage />} />
             <Route path={"/login"} element={<Login />} />
             <Route path={"/login/callback"} element={<LoginCallback />} />
-            <Route path={"/profil"} element={<Profile />} />
+            <Route path={"/profile"} element={<Profile />} />
             <Route path={"/nyheter"} element={<ListNyheter />} />
             <Route path={"/nyheter/ny"} element={<LeggTilNyNyhet />} />
         </Routes>
